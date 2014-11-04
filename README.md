@@ -13,6 +13,7 @@ Parts needed:
 - Electric Imp Card (https://www.sparkfun.com/products/11395)
 - 3v-5v Converter - This is needed to power the LCD since it requires 5V to work and the Electric Imp can only provide 3.3v
 - Some Wires
+- USB cable for power
 
 
 Enjoy it!
