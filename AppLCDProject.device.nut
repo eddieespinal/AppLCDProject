@@ -349,7 +349,7 @@ function printLCD(appInfo) {
 
     server.log("On printLCD");
  
-    local app = appInfo[0];
+    local app = appInfo;
     
     displayMessage("  " + app.appName, 0);
     displayMessage(("V:" + app.version + "      MSV:" + app.minimumOsVersion), 1);

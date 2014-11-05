@@ -72,16 +72,21 @@ function GetiTunesDataWithAppID(appID) {
         local data = http.jsondecode(result.body);
 
         if (data.len() == 1) return;
+        
+		local app = data.results[0];
+		
+		local appInfo = {
+			appName = app.trackName, 
+			version = app.version, 
+			releaseDate = release_date, 
+			averageUserRatingForCurrentVersion = app.averageUserRatingForCurrentVersion, 
+			userRatingCountForCurrentVersion = app.userRatingCountForCurrentVersion, 
+			userRatingCount = app.userRatingCount, 
+			minimumOsVersion = app.minimumOsVersion, 
+			bundleId = app.bundleId, 
+			averageUserRating = app.averageUserRating
+		};
 
-        local appInfo = [];
-        
-        foreach (app in data.results)
-        {
-            server.log(app.artistName);
-        
-            appInfo.push({"appName" : app.trackName, "version" : app.version, "releaseDate" : release_date, "averageUserRatingForCurrentVersion": app.averageUserRatingForCurrentVersion, "userRatingCountForCurrentVersion" : app.userRatingCountForCurrentVersion, "userRatingCount" : app.userRatingCount, "minimumOsVersion" : app.minimumOsVersion, "bundleId" : app.bundleId, "averageUserRating" : app.averageUserRating});
-        }
-        
 		//Send the device the info it needs to display on the LCD
         device.send("iTunesResponse", appInfo);
 
