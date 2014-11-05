@@ -32,7 +32,7 @@ serverStatusLoopWakeup <- null;
 release_date <- null;
 
 function GetReleaseDateWithAppID(appID) {
-    local url = "https://itunes.apple.com/us/app/fly-delta/id"+appID+"?mt=8";
+    local url = "https://itunes.apple.com/us/app/id"+appID+"?mt=8";
     
     server.log("Inside GetReleaseDateFromURL");
 
