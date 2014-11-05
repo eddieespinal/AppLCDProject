@@ -1,6 +1,28 @@
 //==============================================================================
 // Created by Eddie Espinal (Nov 1st, 2014)
 //==============================================================================
+# The MIT License (MIT)
+#
+# Copyright (c) 2014 Eddie Espinal
+#
+# Permission is hereby granted, free of charge, to any person obtaining a copy
+# of this software and associated documentation files (the "Software"), to deal
+# in the Software without restriction, including without limitation the rights
+# to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+# copies of the Software, and to permit persons to whom the Software is
+# furnished to do so, subject to the following conditions:
+#
+# The above copyright notice and this permission notice shall be included in all
+# copies or substantial portions of the Software.
+#
+# THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+# IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+# FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+# AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+# LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+# OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+# SOFTWARE.
+//==============================================================================
 
 iPhoneAppID <- "388491656"
 iPadAppID <- "587667052"
@@ -57,7 +79,7 @@ function GetiTunesDataWithAppID(appID) {
         {
             server.log(app.artistName);
         
-            appInfo.push({"appName" : app.trackName + " iPhone", "version" : app.version, "releaseDate" : release_date, "averageUserRatingForCurrentVersion": app.averageUserRatingForCurrentVersion, "userRatingCountForCurrentVersion" : app.userRatingCountForCurrentVersion, "userRatingCount" : app.userRatingCount, "minimumOsVersion" : app.minimumOsVersion, "bundleId" : app.bundleId, "averageUserRating" : app.averageUserRating});
+            appInfo.push({"appName" : app.trackName, "version" : app.version, "releaseDate" : release_date, "averageUserRatingForCurrentVersion": app.averageUserRatingForCurrentVersion, "userRatingCountForCurrentVersion" : app.userRatingCountForCurrentVersion, "userRatingCount" : app.userRatingCount, "minimumOsVersion" : app.minimumOsVersion, "bundleId" : app.bundleId, "averageUserRating" : app.averageUserRating});
         }
         
 		//Send the device the info it needs to display on the LCD
@@ -83,14 +105,10 @@ function serverStatusLoopWatchDog() {
     
 }
 
-function onDeviceOn(_deviceId) {
-    server.log("Device ID: " + _deviceId);
-    server.log("Device On Called");
-    
-    serverStatusLoopWatchDog();
-}
-
 //Listen for when the device turns on.
-device.on("deviceOn", onDeviceOn);
+device.on("deviceOn", function(nullData) {
+    server.log("Device On Called");
+    serverStatusLoopWatchDog();
+});
 
 server.log("Agent Started");
