@@ -362,7 +362,9 @@ function printLCD(appInfo) {
     displayMessageAtColumn("MSV:" + app.minimumOsVersion, 1, 11);
     displayMessage("CR:" + app.averageUserRatingForCurrentVersion + "/5", 2);
     displayMessageAtColumn("AVR:" + app.averageUserRating +"/5", 2, 11);
-    displayMessage("REL: " + app.releaseDate, 3);
+    displayMessage(app.releaseDate, 3);
+    displayMessageAtColumn("S:" + app.appSize, 3, 13);
+
 }
 
 //Display the response data from the agent.

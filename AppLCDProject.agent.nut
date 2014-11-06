@@ -50,7 +50,9 @@ function GetReleaseDateWithAppID(appID) {
         index = data.find(find_string)
         release_date = data.slice(index + find_string.len())
         release_date = release_date.slice(0, 12);
-
+        
+        local dateArray = split(release_date, " ,");
+        release_date = dateArray[0]+"-"+dateArray[1]+"-"+dateArray[2];
         server.log(release_date);
 
         return;
@@ -58,6 +60,18 @@ function GetReleaseDateWithAppID(appID) {
         server.log(ex);
         return;
     }
+}
+
+function bytesToSize(bytes) {
+
+   if (bytes == 0) 
+   {
+       return "0 Byte";
+   }
+   local k = 1000;
+   local sizes = ["Bytes", "KB", "MB", "GB", "TB"];
+   local i = math.floor(math.log(bytes) / math.log(k));
+   return math.abs(bytes / math.pow(k, i)) + "" + sizes[i];
 }
 
 function GetiTunesDataWithAppID(appID) {
@@ -75,6 +89,8 @@ function GetiTunesDataWithAppID(appID) {
         
 		local app = data.results[0];
 		
+		local appSizeString = bytesToSize(app.fileSizeBytes.tointeger());
+		
 		local appInfo = {
 			appName = app.trackName, 
 			version = app.version, 
@@ -84,12 +100,15 @@ function GetiTunesDataWithAppID(appID) {
 			userRatingCount = app.userRatingCount, 
 			minimumOsVersion = app.minimumOsVersion, 
 			bundleId = app.bundleId, 
-			averageUserRating = app.averageUserRating
+			averageUserRating = app.averageUserRating,
+			appSize = appSizeString
 		};
 
 		//Send the device the info it needs to display on the LCD
         device.send("iTunesResponse", appInfo);
-
+        
+        //Save app Info
+        //server.save(appInfo);
         return;
     } catch (ex) {
         server.log(ex);
@@ -104,9 +123,9 @@ function serverStatusLoopWatchDog() {
     server.log("Inside statusLoopWatchDog");
     
 	//Since iTunes API doesn't return the release date for the current version, I had to hack it to scrape their website to find the correct date.
-    GetReleaseDateWithAppID(iPhoneAppID);
+    GetReleaseDateWithAppID(iPadAppID);
     
-    GetiTunesDataWithAppID(iPhoneAppID);
+    GetiTunesDataWithAppID(iPadAppID);
     
 }
 
