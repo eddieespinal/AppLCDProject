@@ -353,11 +353,15 @@ bootMessage += "\r\n";
 
 function printLCD(appInfo) {
 
-    local app = appInfo;
+    lcd.clear();
     
-    displayMessageAtColumn(app.appName.toupper(), 0, (LINE_LENGTH - app.appName.len())/2);
-    displayMessage(("V:" + app.version + "      MSV:" + app.minimumOsVersion), 1);
-    displayMessage("CR:" + app.averageUserRatingForCurrentVersion + "/5     AVR:" + app.averageUserRating +"/5", 2);
+    local app = appInfo;
+    local appName = app.appName.toupper();
+    displayMessageAtColumn(appName, 0, (LINE_LENGTH - appName.len())/2);
+    displayMessage("V:" + app.version, 1);
+    displayMessageAtColumn("MSV:" + app.minimumOsVersion, 1, 11);
+    displayMessage("CR:" + app.averageUserRatingForCurrentVersion + "/5", 2);
+    displayMessageAtColumn("AVR:" + app.averageUserRating +"/5", 2, 11);
     displayMessage("REL: " + app.releaseDate, 3);
 }
 
