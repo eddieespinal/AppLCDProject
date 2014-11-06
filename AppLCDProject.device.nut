@@ -310,6 +310,12 @@ function displayMessage(message, rowNum)
     lcd.writeString(message);
 }
 
+function displayMessageAtColumn(message, rowNum, colNum)
+{
+    lcd.setCursor(colNum, rowNum);
+    lcd.writeString(message);
+}
+
 /***********************************************************************************
  * Created by Eddie Espinal (Nov 1st, 2014)
  ***********************************************************************************
@@ -343,15 +349,13 @@ const LINE_LENGTH = 20;
 bootMessage <- "--------------------------------\r\n"
 bootMessage += "-- Electric Imp AppLCDProject --\r\n"
 bootMessage += "--------------------------------\r\n"
-bootMessage += "\r\n\r\n";
+bootMessage += "\r\n";
 
 function printLCD(appInfo) {
 
-    server.log("On printLCD");
- 
     local app = appInfo;
     
-    displayMessage("  " + app.appName, 0);
+    displayMessageAtColumn(app.appName.toupper(), 0, (LINE_LENGTH - app.appName.len())/2);
     displayMessage(("V:" + app.version + "      MSV:" + app.minimumOsVersion), 1);
     displayMessage("CR:" + app.averageUserRatingForCurrentVersion + "/5     AVR:" + app.averageUserRating +"/5", 2);
     displayMessage("REL: " + app.releaseDate, 3);
@@ -359,6 +363,10 @@ function printLCD(appInfo) {
 
 //Display the response data from the agent.
 agent.on("iTunesResponse", printLCD);
+
+displayMessage(" CONNECTING NETWORK ", 1);
+displayMessage(" ->"+imp.getssid(), 2);
+imp.sleep(2);
 
 //Ping the agent to query the iTunes Data when the device turns on.
 agent.send("deviceOn", null);
